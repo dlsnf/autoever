@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1>Home Page nuri</h1>
+      <h1>Home Page nuri 11</h1>
       <p>Welcome to the Home page!</p>
     </div>
   </template>
