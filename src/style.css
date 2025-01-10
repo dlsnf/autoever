@@ -65,6 +65,7 @@ button:focus-visible {
   text-align: center;
 }
 
+/* light 모드 */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -76,4 +77,77 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* dark 모드 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #213547;
+    background-color: #eee;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+
+
+.faq-container {
+  padding: 20px;
+}
+header h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.tabs button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+.tabs button.active {
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+}
+
+.category-tabs{
+
+}
+
+
+.category-tabs button.selected{
+  border:2px solid #000;
+}
+
+
+
+
+.search-bar {
+  margin: 20px 0;
+}
+.search-bar input {
+  padding: 10px;
+  width: calc(100% - 80px);
+}
+.search-bar button {
+  padding: 10px 20px;
+}
+.faq-list ul {
+  list-style: none;
+  padding: 0;
+}
+.faq-list li {
+  margin-bottom: 20px;
+}
+
+
+
+
+.service-inquiry {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
 }
