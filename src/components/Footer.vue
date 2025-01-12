@@ -1,0 +1,33 @@
+<template>
+    <footer>
+        <div class="inner">
+            <div class="information">
+                <span class="util">
+                    <button type="button"><b>개인정보 처리방침</b></button>
+                    <button type="button">이용약관</button>
+                </span>
+                <address>
+                    <span>서울특별시 서초구 헌릉로 12 <em>기아㈜</em></span><br><span>대표: <i>송호성, 최준영</i></span><br>
+                    <span>사업자등록번호: <i>119-81-02316</i></span><br>
+                    <span>통신판매번호: <i>2006-07935</i></span><br>
+                    <span>고객센터: <i>1833-4964</i></span><br>
+                    <span>제휴문의: <a href="mailto:wible.biz@kia.com">wible.biz@kia.com</a></span>
+                </address>
+            </div>
+            <p class="copyright">© 2023 KIA CORP. All Rights Reserved.</p>
+        </div>
+    </footer>
+</template>
+
+<script>
+export default {
+    name: "footer",
+    props: {
+        // 필요한 props 추가
+    },
+};
+</script>
+
+<style scoped>
+/* 필요한 스타일 추가 */
+</style>

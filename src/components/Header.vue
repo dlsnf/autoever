@@ -19,14 +19,7 @@
   export default {
     name: "header",
     props: {
-      title: {
-        type: String,
-        required: true,
-      },
-      categories: {
-        type: Array,
-        default: () => [],
-      },
+      // 필요한 props 추가
     },
   };
   </script>

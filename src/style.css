@@ -604,8 +604,10 @@ textarea {
 	background: url(/src/assets/images/ic_clear.svg) no-repeat;
 	background-size: auto 100%;
 }
+
 .input-wrap input:placeholder-shown + .clear {
 	display: none;
+  content: 'before';
 }
 label.checkbox,
 label.radio {
@@ -4520,3 +4522,24 @@ section.scroll > .content > .heading-m {
 	color: #9aa2a8;
 	opacity: 1;
 }
+
+
+
+
+
+
+/* custom */
+.emptyDataInfo {
+  display: flex ;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: var(--h1-height);
+  font-size: var(--h1-fsize);
+  line-height: var(--line-height-sm);
+}
+
+
+
+
+
