@@ -1,7 +1,5 @@
 // src/mocks/handlers.js
 import { http, HttpResponse } from 'msw'
- 
-
 
 //카테고리 가져오기
 export const handlers = [

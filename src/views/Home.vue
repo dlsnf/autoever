@@ -1,16 +1,12 @@
 <template>
   <div class="wrapper">
-
-    <i class="sticky-checker modal-opened"></i>
+    <i class="sticky-checker"></i>
 
     <!-- 헤더 -->
     <Header></Header>
 
-
     <div class="container">
       <div class="content">
-
-
         <h1>자주 묻는 질문 <em>궁금하신 내용을 빠르게 찾아보세요.</em></h1>
 
         <!-- 탭 -->
@@ -24,13 +20,12 @@
         <form @submit.prevent>
           <div class="search">
             <div class="input-wrap"><input type="text" placeholder="찾으시는 내용을 입력해 주세요" value=""
-                v-model="searchKeywordOutput" @keydown.enter="serarchClick()">
+                v-model="searchKeywordOutput" @keyup.enter="handleEnter">
               <button type="button" class="clear" data-ui-click="input-clear" @click="clearInput()">다시입력</button>
-              <button type="button" class="submit" @click="serarchClick()">검색</button>
+              <button type="button" class="submit" @click="searchClick()">검색</button>
             </div>
           </div>
         </form>
-
 
         <!-- 카테고리 추가 -->
         <div class="filter">
@@ -64,9 +59,8 @@
           </li>
         </ul>
 
-
+        <!-- 서비스 문의 -->
         <h2 class="heading-2">서비스 문의</h2>
-
         <div class="inquiry-info">
           <a class="btn-xxlg btn-tertiary" href="/src/proposal.pdf" download="위블비즈 상품제안서">
             <i class="ic download"></i><span>상품제안서 다운로드</span>
@@ -81,8 +75,8 @@
           </a>
         </div>
 
+        <!-- 이용 프로세스 안내 -->
         <h2 class="heading-2">이용 프로세스 안내</h2>
-
         <ol class="process-info">
           <li><i class="ic process-1"></i><span><strong>문의 등록</strong><em>상담 문의를 등록해 주시면, 담당자가 맞춤형 상담을
                 제공합니다.</em></span></li>
@@ -94,11 +88,12 @@
                 이용하세요!</em></span></li>
         </ol>
 
+        <!-- 다이얼로그 -->
         <dialog ref="dialogRef" class="dialog-wrapper dialog-error">
           <div class="dialog-body" style="margin-top: 35px;">
             <p class="message">검색어는 2글자 이상 입력해주세요.</p>
             <div class="button-group">
-              <button type="button" class="btn-xlg btn-tertiary" @click="closeDialog">확인</button>
+              <button type="button" class="btn-xlg btn-tertiary" ref="closeBtn" @click="closeDialog">확인</button>
             </div>
           </div>
         </dialog>
@@ -106,6 +101,7 @@
       </div> <!-- content -->
     </div><!-- container -->
 
+    <!-- 퀵 유틸 -->
     <div class="quick-util active">
       <div class="inner">
         <button type="button" class="top" data-ui-click="scroll-top" @click="scrollToTop()">상단으로</button>
@@ -119,10 +115,8 @@
 </template>
 
 <script>
-
 import Header from '/src/Components/Header.vue';
 import Footer from '../components/Footer.vue';
-
 
 export default {
   name: "Home",
@@ -153,7 +147,7 @@ export default {
   },
   components: {
     Header,
-    Footer
+    Footer,
   },
   watch: {
 
@@ -166,11 +160,6 @@ export default {
           ? this.categoryConsultOrigin
           : this.categoryUsageOrigin;
 
-      // this.selectedCategoryId = this.categoryOutput.length
-      //   ? this.categoryOutput[0].categoryID
-      //   : null; // 기본 선택은 첫 번째 카테고리
-
-
       // Proxy 객체를 JSON으로 변환
       console.log('선택한 탭 : ' + newTab);
       // var jsonObject = null;
@@ -181,8 +170,7 @@ export default {
       // }
       // console.log(JSON.stringify(jsonObject.items, null, 4));
 
-
-      // 탭 전환 시 "전체" 선택 상태로 초기화
+      // 탭 전환 시 데이터 초기화
       this.initData();
     },
 
@@ -196,6 +184,7 @@ export default {
       }
     },
 
+    // 검색어 값 변경 시
     searchKeywordOutput(newVal) {
       if (newVal === "") {
         this.searchKeyword = "";
@@ -204,6 +193,7 @@ export default {
     }
   },
   computed: {
+    // 화면에 표시할 FAQ 데이터
     displayedFAQs() {
       const originData =
         this.selectTab === "CONSULT"
@@ -232,13 +222,11 @@ export default {
           console.log(filterOuputData);
         }
 
-
         const ouputData = {
           "items": filterOuputData
         };
 
         return ouputData;
-
       }//필터      
 
       return originData;
@@ -258,14 +246,16 @@ export default {
     openDialog() {
       this.isDialogOpen = true;
       this.$refs.dialogRef.showModal(); // showModal() 호출
+      this.$refs.closeBtn.focus(); // 다이얼로그 내부의 버튼에 포커스 이동
     },
     closeDialog() {
-      this.isDialogOpen = false;
+      setTimeout(() => {
+        this.isDialogOpen = false;
+      }, 300);
       this.$refs.dialogRef.close(); // close() 호출
     },
 
-
-    // 스크롤 이벤트
+    // TOP 스크롤 이벤트
     handleScroll() {
       const stickyChecker = document.querySelector('.sticky-checker');
       const quickUtilEl = document.querySelector('.quick-util');
@@ -359,12 +349,13 @@ export default {
       this.searchKeywordOutput = "";
 
       console.log('initData 호출됨: selectedCategoryId와 selectedCategoryName 초기화됨');
-
     },
+
     //tab 클릭
     setTab(str) {
       this.selectTab = str;
     },
+
     //카테고리 선택
     selectSubCategory(categoryId, name) {
       this.activeIndex = null;
@@ -384,16 +375,13 @@ export default {
 
       if (this.isAnimating) return; // 애니메이션 중 클릭 방지
 
-
       const contentElements = this.$refs.faqContents;
-
       if (!contentElements || !contentElements[index]) {
         console.warn("FAQ 콘텐츠를 찾을 수 없습니다.");
         return;
       }
 
       this.isAnimating = true; // 애니메이션 시작
-
       const currentContent = contentElements[index];
 
       if (this.activeIndex === index) {
@@ -412,7 +400,6 @@ export default {
         }, 600); // 애니메이션 시간 이후 제거
       } else {
 
-
         // 기존 열려 있는 항목 닫기
         if (this.activeIndex !== null) {
           const previousContent = contentElements[this.activeIndex];
@@ -424,7 +411,6 @@ export default {
             this.preIngIndex = null; // 이전 항목 ing 클래스 제거
           }, 600);
         }
-
 
         // 새로운 항목 열기
         this.ingIndex = index; // ing 클래스 추가
@@ -443,8 +429,17 @@ export default {
 
     },
 
+    //엔터키 이벤트
+    handleEnter(event) {
+      event.preventDefault(); // 기본 동작 방지
+      if(!this.isDialogOpen)
+      {
+        this.searchClick(); // 검색 함수 호출
+      }
+    },
+
     //검색어 클릭
-    serarchClick() {
+    searchClick() {
       if (this.searchKeywordOutput.length < 2) {
         this.openDialog();
         return;
@@ -458,14 +453,16 @@ export default {
     //스크롤 이벤트
     window.addEventListener('scroll', this.handleScroll);
 
-
     //초기 데이터 가져오기
     this.fetchCategory("CONSULT");
     this.fetchCategory("USAGE");
     this.fetchFeq("CONSULT");
     this.fetchFeq("USAGE");
+
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
